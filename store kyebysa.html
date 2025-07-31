@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kyebysa Store - Belanja Cantik dan Nyaman!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Variabel Warna Pink Soft */
+        :root {
+            --primary-pink: #f8c8dc;   /* Pink utama, cerah */
+            --light-pink: #fce4ec;     /* Pink sangat muda, latar belakang */
+            --dark-pink: #e6a8c2;      /* Pink sedikit lebih gelap, untuk judul/aksen */
+            --accent-pink: #d63384;    /* Pink yang lebih kuat untuk harga/sorotan */
+            --text-dark: #333;         /* Warna teks gelap */
+            --text-light: #fff;        /* Warna teks terang */
+            --button-green: #28a745;   /* Hijau untuk tombol aksi, kontras yang baik */
+            --button-hover-green: #218838;
+            --border-color: #eee;      /* Warna border ringan */
+        }
+
+        /* Reset dan Dasar */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-pink);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden; /* Mencegah scroll horizontal */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--primary-pink);
+            color: var(--text-light);
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000; /* Pastikan header di atas elemen lain saat di-scroll */
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo img {
+            max-height: 50px;
+            width: auto;
+            display: block;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+            padding: 5px 0;
+            display: block;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-pink);
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background-color: var(--dark-pink);
+            color: var(--text-light);
+            text-align: center;
+            padding: 80px 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            animation: fadeIn 1s ease-out; /* Animasi fade in */
+        }
+
+        .hero-banner h2 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            color: var(--text-light);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .hero-banner p {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* Tombol Umum */
+        .button {
+            display: inline-block;
+            background-color: var(--button-green);
+            color: var(--text-light);
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: var(--button-hover-green);
+            transform: translateY(-2px);
+        }
+
+        .button-small {
+            padding: 8px 15px;
+            font-size: 0.9em;
+        }
+
+        /* Bagian Umum Section */
+        section {
+            padding: 60px 0;
+            background-color: var(--text-light);
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        section h2 {
+            text-align: center;
+            font-size: 2.2em;
+            margin-bottom: 40px;
+            color: var(--dark-pink);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-pink);
+            border-radius: 5px;
+        }
+
+        /* Produk Unggulan */
+        .daftar-produk {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .produk-item {
+            background-color: var(--light-pink);
+            border: 1px solid var(--dark-pink);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.8s ease-out forwards; /* Animasi produk muncul */
+            opacity: 0; /* Awalnya tersembunyi */
+        }
+        .produk-item:nth-child(1) { animation-delay: 0.1s; }
+        .produk-item:nth-child(2) { animation-delay: 0.2s; }
+        .produk-item:nth-child(3) { animation-delay: 0.3s; }
+        /* Tambahkan delay untuk produk lain jika ada */
+
+        .produk-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+
+        .produk-item img {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .produk-item h3 {
+            margin: 15px 0 10px;
+            color: var(--dark-pink);
+            font-size: 1.5em;
+        }
+
+        .produk-item p {
+            font-size: 0.95em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .produk-item .harga {
+            font-size: 1.4em;
+            color: var(--accent-pink);
+            font-weight: bold;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        /* Tentang Kami */
+        .tentang-kami p {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        /* Lokasi dan Kontak */
+        .lokasi-kontak .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .lokasi-info {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            background-color: var(--light-pink);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .lokasi-info h3 {
+            color: var(--dark-pink);
+            margin-top: 0;
+            border-bottom: 1px solid var(--primary-pink);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .lokasi-info p {
+            margin: 5px 0;
+        }
+
+        .maps-container {
+            flex: 2;
+            min-width: 300px;
+            background-color: var(--light-pink);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .maps-container h3 {
+            color: var(--dark-pink);
+            margin-top: 0;
+            border-bottom: 1px solid var(--primary-pink);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .maps-container iframe {
+            width: 100%;
+            height: 350px;
+            border-radius: 8px;
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-pink);
+            color: var(--text-dark);
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 40px;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+        }
+
+        footer .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .social-links {
+            margin-bottom: 20px;
+        }
+
+        .social-links h3 {
+            margin-bottom: 15px;
+            color: var(--text-dark);
+            font-size: 1.4em;
+        }
+
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--dark-pink);
+            color: var(--text-light);
+            padding: 10px 20px;
+            margin: 0 8px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-size: 0.95em;
+        }
+
+        .social-icon i {
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Warna hover spesifik untuk masing-masing platform */
+        .social-icon.shopee:hover { background-color: #ee4d2d; }
+        .social-icon.instagram:hover { background-color: #e1306c; }
+        .social-icon.whatsapp:hover { background-color: #25d366; }
+        .social-icon.tiktok:hover { background-color: #000; }
+
+        /* Keyframes untuk Animasi */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            nav ul {
+                margin-top: 15px;
+                justify-content: center;
+            }
+            nav ul li {
+                margin: 0 10px 10px; /* Tambah margin bawah untuk list item di mobile */
+            }
+            .hero-banner {
+                padding: 60px 15px;
+            }
+            .hero-banner h2 {
+                font-size: 2.2em;
+            }
+            .hero-banner p {
+                font-size: 1.1em;
+            }
+            .daftar-produk {
+                grid-template-columns: 1fr; /* Satu kolom di layar kecil */
+            }
+            .produk-item {
+                width: 90%;
+                margin: 0 auto;
+            }
+            .lokasi-kontak .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .lokasi-info, .maps-container {
+                width: 100%;
+                min-width: unset;
+                padding: 15px;
+            }
+            .maps-container iframe {
+                height: 300px;
+            }
+            .social-icon {
+                margin: 8px 5px;
+                padding: 8px 15px;
+                font-size: 0.85em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header .container {
+                padding: 0 15px;
+            }
+            .logo img {
+                max-height: 40px;
+            }
+            nav ul li {
+                margin: 0 5px 8px;
+            }
+            nav ul li a {
+                font-size: 0.9em;
+            }
+            .hero-banner h2 {
+                font-size: 1.8em;
+            }
+            .hero-banner p {
+                font-size: 0.9em;
+            }
+            section {
+                padding: 40px 0;
+            }
+            section h2 {
+                font-size: 1.8em;
+            }
+            .produk-item {
+                padding: 15px;
+            }
+            .produk-item h3 {
+                font-size: 1.3em;
+            }
+            .produk-item .harga {
+                font-size: 1.2em;
+            }
+            .social-icon {
+                display: block; /* Buat ikon sosial media vertikal di layar sangat kecil */
+                width: 80%;
+                margin: 8px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="https://via.placeholder.com/150x50?text=LOGO+KYEBYSA" alt="Logo Kyebysa Store">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#produk">Produk</a></li>
+                    <li><a href="#tentang">Tentang Kami</a></li>
+                    <li><a href="#kontak">Kontak</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-banner">
+            <div class="container">
+                <h2>Selamat Datang di Kyebysa Store!</h2>
+                <p>Temukan koleksi fashion dan aksesoris terbaik untuk gaya Anda.</p>
+                <a href="#produk" class="button">Lihat Produk Kami</a>
+            </div>
+        </section>
+
+        <section id="produk" class="produk-unggulan">
+            <div class="container">
+                <h2>Produk Unggulan</h2>
+                <div class="daftar-produk">
+                    <div class="produk-item">
+                        <img src="https://via.placeholder.com/250x250?text=Dress+Cantik" alt="Dress Anggun Pink">
+                        <h3>Dress Anggun Pink</h3>
+                        <p>Dress elegan dengan bahan berkualitas, cocok untuk acara spesial.</p>
+                        <span class="harga">Rp 250.000</span>
+                        <a href="URL_SHOPEE_PRODUK_1" target="_blank" class="button button-small">Beli di Shopee</a>
+                    </div>
+                    <div class="produk-item">
+                        <img src="https://via.placeholder.com/250x250?text=Tas+Wanita" alt="Tas Tangan Minimalis">
+                        <h3>Tas Tangan Minimalis</h3>
+                        <p>Tas cantik dengan desain minimalis, praktis untuk sehari-hari.</p>
+                        <span class="harga">Rp 180.000</span>
+                        <a href="URL_SHOPEE_PRODUK_2" target="_blank" class="button button-small">Beli di Shopee</a>
+                    </div>
+                    <div class="produk-item">
+                        <img src="https://via.placeholder.com/250x250?text=Aksesoris+Rambut" alt="Aksesoris Rambut Pesta">
+                        <h3>Aksesoris Rambut Pesta</h3>
+                        <p>Hiasan rambut menawan, tambahkan sentuhan glamor pada penampilan Anda.</p>
+                        <span class="harga">Rp 75.000</span>
+                        <a href="URL_SHOPEE_PRODUK_3" target="_blank" class="button button-small">Beli di Shopee</a>
+                    </div>
+                    <div class="produk-item">
+                        <img src="https://via.placeholder.com/250x250?text=Sepatu+Stylish" alt="Sepatu Sandal Stylish">
+                        <h3>Sepatu Sandal Stylish</h3>
+                        <p>Sandal nyaman dan modis, sempurna untuk gaya kasual dan semi-formal.</p>
+                        <span class="harga">Rp 120.000</span>
+                        <a href="URL_SHOPEE_PRODUK_4" target="_blank" class="button button-small">Beli di Shopee</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tentang" class="tentang-kami">
+            <div class="container">
+                <h2>Tentang Kyebysa Store</h2>
+                <p>Kyebysa Store hadir untuk memenuhi kebutuhan **fashion** dan **aksesoris** Anda dengan produk-produk berkualitas tinggi dan desain yang menarik. Kami selalu berkomitmen untuk memberikan pengalaman belanja terbaik, dan kepuasan pelanggan adalah prioritas utama kami.</p>
+                <p>Didirikan dengan semangat untuk menghadirkan gaya yang unik dan nyaman, Kyebysa Store adalah pilihan tepat untuk tampil fashionable setiap hari.</p>
+            </div>
+        </section>
+
+        <section id="kontak" class="lokasi-kontak">
+            <div class="container">
+                <h2>Temukan Kami</h2>
+                <div class="lokasi-info">
+                    <h3>Alamat Kami</h3>
+                    <p>Kyebysa Store</p>
+                    <p>Jl. Contoh Alamat No. 123</p>
+                    <p>Kelurahan Contoh, Kecamatan Fashion</p>
+                    <p>Kota Contoh, Provinsi Contoh 12345</p>
+                    <p>Indonesia</p>
+                </div>
+                <div class="maps-container">
+                    <h3>Lokasi di Peta</h3>
+                    <iframe
+                        src="http://googleusercontent.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.279774659222!2d106.82062637499066!3d-6.208763560731557!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3a9e3e7f45b%3A0x7d6b3a0f1e0c8b0!2sMonumen%20Nasional!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
+                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <h3>Ikuti Kami di Sosial Media!</h3>
+                <a href="https://shopee.co.id/kyebysastore_official" target="_blank" class="social-icon shopee" aria-label="Kunjungi Shopee Kyebysa Store">
+                    <i class="fas fa-shopping-bag"></i> Shopee
+                </a>
+                <a href="https://www.instagram.com/kyebysastore_official/" target="_blank" class="social-icon instagram" aria-label="Kunjungi Instagram Kyebysa Store">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
+                <a href="https://wa.me/6281234567890" target="_blank" class="social-icon whatsapp" aria-label="Hubungi Kyebysa Store via WhatsApp">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+                <a href="https://www.tiktok.com/@kyebysastore_official" target="_blank" class="social-icon tiktok" aria-label="Kunjungi TikTok Kyebysa Store">
+                    <i class="fab fa-tiktok"></i> TikTok
+                </a>
+            </div>
+            <p>&copy; 2025 Kyebysa Store. Semua Hak Dilindungi.</p>
+        </div>
+    </footer>
+</body>
+</html>
